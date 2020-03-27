@@ -70,8 +70,10 @@ no* buscarElemento(no* lista, int i){
   return NULL;
 }
 
-void adicionarCirculo(no* lista, int i, float xc, float yc, float raio, char cb[], char cp[]){
-    lista = buscarElemento(lista, i);
+void adicionarCirculo(no* lista, float xc, float yc, float raio, char cb[], char cp[]){
+    while (lista->prox != NULL){
+      lista = lista->prox;
+    }
     lista->fig = (figura *)malloc(sizeof(figura));
     lista->fig->c.r = raio;
     lista->fig->c.x = xc;
@@ -80,8 +82,10 @@ void adicionarCirculo(no* lista, int i, float xc, float yc, float raio, char cb[
     strcpy(lista->fig->c.corb, cb);
 }
 
-void adicionarRetangulo(no* lista,int i, float xp, float yp, float wd, float ht, char cb[], char cp[]){
-    lista = buscarElemento(lista, i);
+void adicionarRetangulo(no* lista, float xp, float yp, float wd, float ht, char cb[], char cp[]){
+    while (lista->prox != NULL){
+      lista = lista->prox;
+    }
     lista->fig = (figura *)malloc(sizeof(figura));
     lista->fig->r.w = wd;
     lista->fig->r.h = ht;
@@ -91,8 +95,10 @@ void adicionarRetangulo(no* lista,int i, float xp, float yp, float wd, float ht,
     strcpy(lista->fig->r.corb, cb);
 }
 
-void adicionarlinha(no* lista, int i, float xi, float yi, float xf, float yf, char c[]){
-    lista = buscarElemento(lista, i);
+void adicionarlinha(no* lista, float xi, float yi, float xf, float yf, char c[]){
+    while (lista->prox != NULL){
+      lista = lista->prox;
+    }
     lista->fig = (figura *)malloc(sizeof(figura));
     lista->fig->l.x1 = xi;
     lista->fig->l.y1 = yi;
@@ -101,8 +107,10 @@ void adicionarlinha(no* lista, int i, float xi, float yi, float xf, float yf, ch
     strcpy(lista->fig->l.cor, c);
 }
 
-void adicionarTexto(no* lista, int i, float x, float y,char texto[], char cb[], char cp[]){
-    lista = buscarElemento(lista, i);
+void adicionarTexto(no* lista, float x, float y,char texto[], char cb[], char cp[]){
+    while (lista->prox != NULL){
+      lista = lista->prox;
+    }
     lista->fig = (figura *)malloc(sizeof(figura));
     lista->fig->t.x = x;
     lista->fig->t.y = y;

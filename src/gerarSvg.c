@@ -9,7 +9,7 @@ void desenharRetangulo(FILE* svg, int w, int h, int x, int y, char corb[], char 
 }
 
 void desenharCirculo(FILE* svg, int r, int x, int y, char corb[], char corp[]){
-    fprintf(svg,"\t<circle x=\"%d\" y=\"%d\" r=\"%d\" fill=\"%s\" stroke=\"%s\"/>\n",x,y,r,corp,corb);
+    fprintf(svg,"\t<circle cx=\"%d\" cy=\"%d\" r=\"%d\" fill=\"%s\" stroke=\"%s\"/>\n",x,y,r,corp,corb);
 }
 
 void desenharLinha(FILE* svg, int x1, int x2, int y1, int y2, char cor[]){
@@ -20,9 +20,16 @@ void escreverTexto(FILE* svg, int x, int y, char corb[], char corp[], char texto
     fprintf(svg,"\t<text x=\"%d\" y=\"%d\" stroke=\"%s\" fill=\"%s\">%s</text>\n",x,y,corb,corp,texto);
 }
 
+void desenharRetanguloTracejado(FILE* svg, int w, int h, int x, int y, char cor[]){
+    fprintf(svg,"\t<rect x=\"%d\" y=\"%d\" width=\"%d\" height=\"%d\" fill=\"transparent\" stroke=\"%s\" stroke-width =\"0.5\" stroke-dasharray=\"1\" />\n",x,y,w,h,cor);
+}
+
 void gerarSvg(char outpath[], no* figuras){
-    printf("\n%s\n", outpath);
     FILE *svgArq = fopen(outpath,"w");
+    if(svgArq == NULL){
+        printf("erro ao abrir o arquivo\n");
+        exit(1);
+    }
     fprintf(svgArq,"<svg>\n");
     while(figuras != NULL){
         switch (figuras->tipo){
@@ -37,6 +44,9 @@ void gerarSvg(char outpath[], no* figuras){
             break;
         case 't':
             escreverTexto(svgArq,figuras->fig->t.x,figuras->fig->t.y,figuras->fig->t.corb,figuras->fig->t.corp,figuras->fig->t.txt);
+            break;
+        case 'o':
+            desenharRetanguloTracejado(svgArq,figuras->fig->r.w,figuras->fig->r.h,figuras->fig->r.x,figuras->fig->r.y,figuras->fig->r.corb);
             break;
         }
         figuras = figuras->prox;

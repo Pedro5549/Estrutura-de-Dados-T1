@@ -11,6 +11,8 @@ void desenharLinha(FILE* svg, int x1, int x2, int y1, int y2, char cor[]);
 
 void escreverTexto(FILE* svg, int x, int y, char corb[], char corp[], char texto[]);
 
+void desenharRetanguloTracejado(FILE* svg, int w, int h, int x, int y, char cor[]);
+
 void gerarSvg(char outpath[], no* figuras);
 
 #endif

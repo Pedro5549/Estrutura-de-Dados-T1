@@ -16,7 +16,9 @@ int main(int argc, char *argv[])
     char *geoArq = NULL;
     char *qryArq = NULL;
     char *nomeArq = NULL;
-    char *out = NULL;
+    char *nomeQry = NULL;
+    char *saida = NULL;
+    char *saidaQry = NULL;
     while(i<argc){
         if (strcmp("-f",argv[i])==0){
             i++;
@@ -59,29 +61,37 @@ int main(int argc, char *argv[])
 	if (path != NULL) {
 		geoArq = (char *)malloc((strlen(paramGeo)+strlen(path)+2)*sizeof(char));
     	sprintf(geoArq,"%s/%s",path,paramGeo);
-    	qryArq = (char *)malloc((strlen(paramQry)+strlen(path)+2)*sizeof(char));
-    	sprintf(qryArq,"%s/%s",path,paramQry);
+        if (paramQry != NULL){
+            qryArq = (char *)malloc((strlen(paramQry)+strlen(path)+2)*sizeof(char));
+            sprintf(qryArq,"%s/%s",path,paramQry);
+        }
 	} else {
 		geoArq = (char *)malloc((strlen(paramGeo)+1)*sizeof(char));
     	strcpy(geoArq, paramGeo);
-    	qryArq = (char *)malloc((strlen(paramQry)+1)*sizeof(char));
-    	strcpy(qryArq, paramQry);
+        if(paramQry != NULL){
+            qryArq = (char *)malloc((strlen(paramQry)+1)*sizeof(char));
+            strcpy(qryArq, paramQry);
+        }
 	}
     no* figuras = geo(geoArq);
     nomeArq = obterNomeArquivo(paramGeo);
-    out = (char*)malloc((strlen(nomeArq) + strlen(outPath) + 6)*sizeof(char));
-    printf("%d\n%d", strlen(nomeArq),strlen(outPath));
-    sprintf(out,"%s/%s.svg",outPath,nomeArq);
-    printf("\n%d", strlen(out));
-    printf("%s",out);
-    gerarSvg(out,figuras);
-	free(paramGeo);
-    free(paramQry);
+    saida = (char*)malloc((strlen(nomeArq) + strlen(outPath) + 6)*sizeof(char));
+    sprintf(saida,"%s/%s.svg",outPath,nomeArq);
+    gerarSvg(saida,figuras);
+    if (paramQry != NULL){
+        nomeQry = obterNomeArquivo(paramQry);
+        saidaQry = (char*)malloc((strlen(outPath) + strlen(nomeArq) + strlen(nomeQry) + 3)*sizeof(char));
+        sprintf(saidaQry,"%s/%s-%s",outPath,nomeArq,nomeQry);
+        qry(figuras,qryArq,saidaQry);
+        free(saidaQry);
+        free(qryArq); 
+        free(paramQry);
+    }
+    free(paramGeo);
     free(path);
 	free(outPath);
     free(geoArq);
-    free(qryArq);
-    free(out);
+    free(saida);
     deletarLista(figuras);
     printf("Mémoria desalocada\n");   
     return 0;
