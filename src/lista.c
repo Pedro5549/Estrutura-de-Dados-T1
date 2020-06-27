@@ -34,24 +34,30 @@ void deletarLista(no* lista){
   while(lista != NULL){
     aux = lista;
     lista = lista->prox;
+    if(aux->tipo == 't'){
+      free(aux->fig->t.txt);
+    }
     free(aux->fig);
     free(aux);
   }
 }
 
 no* deletarElemento(no* lista, int n){
-  no *aux2, *aux = lista;
+  no *aux2, *aux;
+  aux = lista;
+  aux2 = NULL;
   while(aux != NULL){
     if (n == aux->i){
-      if (aux == lista){
+      if (aux2 == NULL){
         lista = lista->prox;
-        free(aux->fig);
-        free(aux);
       }else{
         aux2->prox = aux->prox;
-        free(aux->fig);
-        free(aux);
       }
+      if(aux->tipo == 't'){
+        free(aux->fig->t.txt);
+      }
+      free(aux->fig);
+      free(aux);
       return lista;
     }
     aux2 = aux;
@@ -107,14 +113,17 @@ void adicionarlinha(no* lista, float xi, float yi, float xf, float yf, char c[])
     strcpy(lista->fig->l.cor, c);
 }
 
-void adicionarTexto(no* lista, float x, float y,char texto[], char cb[], char cp[]){
-    while (lista->prox != NULL){
-      lista = lista->prox;
+no* adicionarTexto(no* lista, float x, float y,char texto[], char cb[], char cp[]){
+    no* aux = lista;
+    while (aux->prox != NULL){
+      aux = aux->prox;
     }
-    lista->fig = (figura *)malloc(sizeof(figura));
-    lista->fig->t.x = x;
-    lista->fig->t.y = y;
-    strcpy(lista->fig->t.txt, texto);
-    strcpy(lista->fig->t.corp, cp);
-    strcpy(lista->fig->t.corb, cb);
+    aux->fig = (figura *)malloc(sizeof(figura));
+    aux->fig->t.x = x;
+    aux->fig->t.y = y;
+    aux->fig->t.txt = (char*)malloc(sizeof(char)*(strlen(texto) + 1));
+    strcpy(aux->fig->t.txt, texto);
+    strcpy(aux->fig->t.corp, cp);
+    strcpy(aux->fig->t.corb, cb);
+    return lista;
 }

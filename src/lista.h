@@ -18,6 +18,6 @@ void adicionarRetangulo(no* lista, float xp, float yp, float wd, float ht, char 
 
 void adicionarlinha(no* lista, float xi, float yi, float xf, float yf, char c[]);
 
-void adicionarTexto(no* lista, float x, float y,char texto[], char cb[], char cp[]);
+no* adicionarTexto(no* lista, float x, float y,char texto[], char cb[], char cp[]);
 
 #endif

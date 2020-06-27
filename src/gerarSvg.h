@@ -13,6 +13,6 @@ void escreverTexto(FILE* svg, int x, int y, char corb[], char corp[], char texto
 
 void desenharRetanguloTracejado(FILE* svg, int w, int h, int x, int y, char cor[]);
 
-void gerarSvg(char outpath[], no* figuras);
+void gerarSvg(char outpath[], no* figuras, float xi, float yi, float xf, float yf);
 
 #endif

@@ -135,15 +135,18 @@ void pontoInterno(float x, float y, int j, FILE* saida, no* svg){
 }
 
 no* delf(int j,FILE* saida, no* svg){
-    no *aux = buscarElemento(svg,j);
-    if(aux->tipo == 'c'){
-        fprintf(saida,"%d: circulo x = %f y = %f r = %f corb = %s corp = %s\n",j,aux->fig->c.x,aux->fig->c.y,aux->fig->c.r,aux->fig->c.corb,aux->fig->c.corp);
-    }
-    else if(aux->tipo == 'r'){
-        fprintf(saida,"%d: retangulo x = %f y = %f w = %f h = %f corb = %s corp = %s\n",j,aux->fig->r.x,aux->fig->r.y,aux->fig->r.w,aux->fig->r.h,aux->fig->r.corb,aux->fig->r.corp);      
-    }
-    else{
-        fprintf(saida,"%d: texto x = %f y = %f corb = %s corp = %s texto = %s\n",j,aux->fig->t.x,aux->fig->t.y,aux->fig->t.corb,aux->fig->t.corp,aux->fig->t.txt);
+    no *aux;
+    aux = buscarElemento(svg,j);
+    if (aux != NULL){
+        if(aux->tipo == 'c'){
+            fprintf(saida,"%d: circulo x = %f y = %f r = %f corb = %s corp = %s\n",j,aux->fig->c.x,aux->fig->c.y,aux->fig->c.r,aux->fig->c.corb,aux->fig->c.corp);
+        }
+        else if(aux->tipo == 'r'){
+            fprintf(saida,"%d: retangulo x = %f y = %f w = %f h = %f corb = %s corp = %s\n",j,aux->fig->r.x,aux->fig->r.y,aux->fig->r.w,aux->fig->r.h,aux->fig->r.corb,aux->fig->r.corp);      
+        }
+        else{
+            fprintf(saida,"%d: texto x = %f y = %f corb = %s corp = %s texto = %s\n",j,aux->fig->t.x,aux->fig->t.y,aux->fig->t.corb,aux->fig->t.corp,aux->fig->t.txt);
+        }
     }
     svg = deletarElemento(svg,j);
     return svg;

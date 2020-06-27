@@ -4,8 +4,10 @@
 
 char *obterNomeArquivo(char path[]);
 
-no* geo(char geoArq[]);
+no* geo(char geoArq[], char saida[]);
 
 void qry(no* svg, char path[], char nomeSaida[]);
+
+void read(char path[], char outPath[], char paramGeo[], char paramQry[]);
 
 #endif
