@@ -3,32 +3,6 @@
 #include <stdlib.h>
 #include "struct.h"
 
-no *criarLista(){
-  return NULL;
-}
-
-no *adicionarNo(no* lista, int n, char t){
-  no *aux;
-  if(lista == NULL){
-    lista = (no *) malloc(sizeof(no));
-    lista->i = n;
-    lista->tipo = t;
-    lista->fig = NULL;
-    lista->prox = NULL;
-  }else{
-    aux = lista;
-    while(aux->prox != NULL){
-      aux = aux->prox;
-    }
-    aux->prox = (no *)malloc(sizeof(no));
-    aux->prox->i = n;
-    aux->prox->tipo = t;
-    aux->prox->fig = NULL;
-    aux->prox->prox = NULL;
-  }
-  return lista;
-}
-
 void deletarLista(no* lista){
   no* aux;
   while(lista != NULL){
@@ -48,7 +22,7 @@ no* deletarElemento(no* lista, int n){
   aux2 = NULL;
   while(aux != NULL){
     if (n == aux->i){
-      if (aux2 == NULL){
+      if(aux == lista){
         lista = lista->prox;
       }else{
         aux2->prox = aux->prox;
@@ -76,46 +50,116 @@ no* buscarElemento(no* lista, int i){
   return NULL;
 }
 
-void adicionarCirculo(no* lista, float xc, float yc, float raio, char cb[], char cp[]){
-    while (lista->prox != NULL){
-      lista = lista->prox;
+no* adicionarCirculo(no* lista, int n, char t, float xc, float yc, float raio, char cb[], char cp[]){
+  no *aux;
+  if(lista == NULL){
+    lista = (no *) malloc(sizeof(no));
+    lista->i = n;
+    lista->tipo = t;
+    lista->fig = NULL;
+    lista->prox = NULL;
+    aux = lista;
+  }else{
+    aux = lista;
+    while(aux->prox != NULL){
+      aux = aux->prox;
     }
-    lista->fig = (figura *)malloc(sizeof(figura));
-    lista->fig->c.r = raio;
-    lista->fig->c.x = xc;
-    lista->fig->c.y = yc;
-    strcpy(lista->fig->c.corp, cp);
-    strcpy(lista->fig->c.corb, cb);
+    aux->prox = (no *)malloc(sizeof(no));
+    aux->prox->i = n;
+    aux->prox->tipo = t;
+    aux->prox->fig = NULL;
+    aux->prox->prox = NULL;
+    aux = aux->prox;
+  }
+    aux->fig = (figura *)malloc(sizeof(figura));
+    aux->fig->c.r = raio;
+    aux->fig->c.x = xc;
+    aux->fig->c.y = yc;
+    strcpy(aux->fig->c.corp, cp);
+    strcpy(aux->fig->c.corb, cb);
+    return lista;
 }
 
-void adicionarRetangulo(no* lista, float xp, float yp, float wd, float ht, char cb[], char cp[]){
-    while (lista->prox != NULL){
-      lista = lista->prox;
+no* adicionarRetangulo(no* lista, int n, char t, float xp, float yp, float wd, float ht, char cb[], char cp[]){
+    no *aux;
+    if(lista == NULL){
+      lista = (no *) malloc(sizeof(no));
+      lista->i = n;
+      lista->tipo = t;
+      lista->fig = NULL;
+      lista->prox = NULL;
+      aux = lista;
+    }else{
+      aux = lista;
+      while(aux->prox != NULL){
+        aux = aux->prox;
+      }
+      aux->prox = (no *)malloc(sizeof(no));
+      aux->prox->i = n;
+      aux->prox->tipo = t;
+      aux->prox->fig = NULL;
+      aux->prox->prox = NULL;
+      aux = aux->prox;
     }
-    lista->fig = (figura *)malloc(sizeof(figura));
-    lista->fig->r.w = wd;
-    lista->fig->r.h = ht;
-    lista->fig->r.x = xp;
-    lista->fig->r.y = yp;
-    strcpy(lista->fig->r.corp, cp);
-    strcpy(lista->fig->r.corb, cb);
+    aux->fig = (figura *)malloc(sizeof(figura));
+    aux->fig->r.w = wd;
+    aux->fig->r.h = ht;
+    aux->fig->r.x = xp;
+    aux->fig->r.y = yp;
+    strcpy(aux->fig->r.corp, cp);
+    strcpy(aux->fig->r.corb, cb);
+    return lista;
 }
 
-void adicionarlinha(no* lista, float xi, float yi, float xf, float yf, char c[]){
-    while (lista->prox != NULL){
-      lista = lista->prox;
+no* adicionarlinha(no* lista, int n, char t, float xi, float yi, float xf, float yf, char c[]){
+    no *aux;
+    if(lista == NULL){
+      lista = (no *) malloc(sizeof(no));
+      lista->i = n;
+      lista->tipo = t;
+      lista->fig = NULL;
+      lista->prox = NULL;
+      aux = lista;
+    }else{
+      aux = lista;
+      while(aux->prox != NULL){
+        aux = aux->prox;
+      }
+      aux->prox = (no *)malloc(sizeof(no));
+      aux->prox->i = n;
+      aux->prox->tipo = t;
+      aux->prox->fig = NULL;
+      aux->prox->prox = NULL;
+      aux = aux->prox;
     }
-    lista->fig = (figura *)malloc(sizeof(figura));
-    lista->fig->l.x1 = xi;
-    lista->fig->l.y1 = yi;
-    lista->fig->l.x2 = xf;
-    lista->fig->l.y2 = yf;
-    strcpy(lista->fig->l.cor, c);
+    aux->fig = (figura *)malloc(sizeof(figura));
+    aux->fig->l.x1 = xi;
+    aux->fig->l.y1 = yi;
+    aux->fig->l.x2 = xf;
+    aux->fig->l.y2 = yf;
+    strcpy(aux->fig->l.cor, c);
+    return lista;
 }
 
-no* adicionarTexto(no* lista, float x, float y,char texto[], char cb[], char cp[]){
-    no* aux = lista;
-    while (aux->prox != NULL){
+no* adicionarTexto(no* lista, int n, char t, float x, float y,char texto[], char cb[], char cp[]){
+    no *aux;
+    if(lista == NULL){
+      lista = (no *) malloc(sizeof(no));
+      lista->i = n;
+      lista->tipo = t;
+      lista->fig = NULL;
+      lista->prox = NULL;
+      aux = lista;
+    }else{
+      aux = lista;
+      while(aux->prox != NULL){
+        aux = aux->prox;
+      }
+      aux->prox = (no *)malloc(sizeof(no));
+      aux->prox->i = n;
+      aux->prox->tipo = t;
+      aux->prox->fig = NULL;
+      aux->prox->prox = NULL;
       aux = aux->prox;
     }
     aux->fig = (figura *)malloc(sizeof(figura));

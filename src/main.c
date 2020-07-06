@@ -48,7 +48,7 @@ int main(int argc, char *argv[]){
         }
         i++;
     }
-    read(path,outPath,paramGeo,paramQry);
+    tratamento(path,outPath,paramGeo,paramQry);
 	free(paramQry);
     free(paramGeo);
     free(path);

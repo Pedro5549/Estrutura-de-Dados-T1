@@ -30,7 +30,11 @@ void gerarSvg(char outpath[], no* figuras, float xi, float yi, float xf, float y
         printf("erro ao abrir o arquivo\n");
         exit(1);
     }
-    fprintf(svgArq,"<svg viewBox=\"%f %f %f %g\">\n",xi,yi,xf - xi, yf - yi);
+    if(xf - xi > 0 && yf - yi > 0){
+        fprintf(svgArq,"<svg viewBox=\"%f %f %f %g\">\n",xi,yi,xf - xi, yf - yi);
+    }else{
+        fprintf(svgArq,"<svg>\n");
+    }
     while(figuras != NULL){
         switch (figuras->tipo){
         case 'c':

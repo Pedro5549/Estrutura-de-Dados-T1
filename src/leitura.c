@@ -15,7 +15,7 @@ char *obterNomeArquivo(char path[]){
 }
 
 no* geo(char geoArq[], char saida[]){
-    no* svg = criarLista();
+    no* svg = NULL;
     char tipo,cor1[22] ,cor2[22], buffer;
     char *txt;
     int n = 0, max = 1000, nbuffer, i;
@@ -31,8 +31,7 @@ no* geo(char geoArq[], char saida[]){
         }
         else if(tipo == 'c'){
             fscanf(geo,"%d %f %f %f %s %s\n", &i, &h, &x, &y, cor1, cor2);
-            svg = adicionarNo(svg, i, 'c');
-            adicionarCirculo(svg,x,y,h,cor1,cor2);
+            svg = adicionarCirculo(svg,i,'c',x,y,h,cor1,cor2);
             if(x - h < xi){
                 xi = x - h;
             }
@@ -49,8 +48,7 @@ no* geo(char geoArq[], char saida[]){
         }
         else if(tipo == 'r'){
             fscanf(geo,"%d %f %f %f %f %s %s\n", &i, &x, &y, &h, &w, cor1, cor2);
-            svg = adicionarNo(svg, i, 'r');
-            adicionarRetangulo(svg,x,y,w,h,cor1,cor2);
+            svg = adicionarRetangulo(svg,i,'r',x,y,w,h,cor1,cor2);
             if(x < xi){
                 xi = x;
             }
@@ -76,8 +74,7 @@ no* geo(char geoArq[], char saida[]){
             fseek(geo,-nbuffer,SEEK_CUR);
             txt = (char*)malloc(sizeof(char)*nbuffer);
             fscanf(geo,"%[^\n]",txt);
-            svg = adicionarNo(svg, i, 't');
-            svg = adicionarTexto(svg,x,y,txt,cor1,cor2);
+            svg = adicionarTexto(svg,i,'t',x,y,txt,cor1,cor2);
             if(x < xi){
                 xi = x;
             }
@@ -98,9 +95,9 @@ no* geo(char geoArq[], char saida[]){
     return svg;
 }
 
-void qry(no* svg, char path[], char nomeSaida[]){
-    char* pathTxt = malloc((4 + strlen(nomeSaida))*sizeof(char));
-    char* pathSvg = malloc((4 + strlen(nomeSaida))*sizeof(char));
+no* qry(no* svg, char path[], char nomeSaida[]){
+    char* pathTxt = malloc((5 + strlen(nomeSaida))*sizeof(char));
+    char* pathSvg = malloc((5 + strlen(nomeSaida))*sizeof(char));
     sprintf(pathTxt,"%s.txt",nomeSaida);
     sprintf(pathSvg,"%s.svg",nomeSaida);
     FILE* consulta = fopen(path,"r");
@@ -151,9 +148,10 @@ void qry(no* svg, char path[], char nomeSaida[]){
     gerarSvg(pathSvg,svg,0,0,0,0);
     fclose(saida);
     fclose(consulta);
+    return svg;
 }
 
-void read(char path[], char outPath[], char paramGeo[], char paramQry[]){
+void tratamento(char path[], char outPath[], char paramGeo[], char paramQry[]){
     char *geoArq = NULL;
     char *qryArq = NULL;
     char *nomeArq = NULL;
@@ -198,7 +196,7 @@ void read(char path[], char outPath[], char paramGeo[], char paramQry[]){
         nomeQry = obterNomeArquivo(paramQry);
         saidaQry = (char*)malloc((strlen(outPath) + strlen(saida) + 2)*sizeof(char));
         sprintf(saidaQry,"%s-%s",saida,nomeQry);
-        qry(figuras,qryArq,saidaQry);
+        figuras = qry(figuras,qryArq,saidaQry);
         free(saidaQry);
         free(qryArq); 
     }

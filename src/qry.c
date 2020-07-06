@@ -40,12 +40,10 @@ void retanguloxCirculo(circulo circ, int c, retangulo ret, int r, FILE* saida, n
     h = max(ret.y + ret.h,circ.y + circ.r) - y;
     if(sqrt(deltaX + deltaY) <= circ.r){
         fprintf(saida,"%d: circulo %d: retangulo SIM",c,r);
-        adicionarNo(svg,0,'r');
-        adicionarRetangulo(svg,x,y,w,h,"black","transparent");
+        adicionarRetangulo(svg,-1,'r',x,y,w,h,"black","transparent");
     }else{
         fprintf(saida,"%d: circulo %d: retangulo NAO",c,r);
-        adicionarNo(svg,0,'o');
-        adicionarRetangulo(svg,x,y,w,h,"black","transparent");
+        adicionarRetangulo(svg,-1,'o',x,y,w,h,"black","transparent");
     }
 }
 
@@ -58,13 +56,11 @@ void circuloInt(circulo c1, int j, circulo c2, int k, FILE* saida, no* svg){
     h = max(c1.y + c1.r, c2.y + c2.r) - y;
     if(dist <= c2.r + c1.r){
         fprintf(saida,"%d: circulo %d: circulo SIM",j,k);
-        adicionarNo(svg,0,'r');
-        adicionarRetangulo(svg,x,y,w,h,"black","transparent");
+        adicionarRetangulo(svg,-1,'r',x,y,w,h,"black","transparent");
     }
     else{
         fprintf(saida,"%d: circulo %d: circulo NAO",j,k);
-        adicionarNo(svg,0,'o');
-        adicionarRetangulo(svg,x,y,w,h,"black","transparent");
+        adicionarRetangulo(svg,-1,'o',x,y,w,h,"black","transparent");
     }
 }
 
@@ -76,13 +72,11 @@ void retanguloInt(retangulo r1, int j, retangulo r2, int k, FILE* saida, no* svg
     h = max(r1.y + r1.h,r2.y + r2.h) - y;
     if (w <= r1.w + r2.w && h <= r1.h + r2.h){
         fprintf(saida,"%d: retangulo %d: retangulo SIM",j,k);
-        adicionarNo(svg,0,'r');
-        adicionarRetangulo(svg,x,y,w,h,"black","transparent");
+        adicionarRetangulo(svg,-1,'r',x,y,w,h,"black","transparent");
     }
     else{
         fprintf(saida,"%d: retangulo %d: retangulo NAO",j,k);
-        adicionarNo(svg,0,'o');
-        adicionarRetangulo(svg,x,y,w,h,"black","transparent");
+        adicionarRetangulo(svg,-1,'o',x,y,w,h,"black","transparent");
     }
 }
 
@@ -115,8 +109,7 @@ void pontoInterno(float x, float y, int j, FILE* saida, no* svg){
             fprintf(saida,"%d: circulo NAO INTERNO\n",j);
             strcpy(cor,"magenta");
         }
-        adicionarNo(svg,0,'l');
-        adicionarlinha(svg,x,y,aux->fig->c.x,aux->fig->c.y,cor);
+        adicionarlinha(svg,-1,'l',x,y,aux->fig->c.x,aux->fig->c.y,cor);
     }else{
         float difx = x - aux->fig->r.x;
         float dify = y - aux->fig->r.y;
@@ -127,11 +120,9 @@ void pontoInterno(float x, float y, int j, FILE* saida, no* svg){
             fprintf(saida,"%d: retangulo NAO INTERNO\n",j);
             strcpy(cor,"magenta");
         }
-        adicionarNo(svg,0,'l');
-        adicionarlinha(svg,x,y,aux->fig->r.x + aux->fig->r.w/2,aux->fig->r.y + aux->fig->r.h/2,cor);    
+        adicionarlinha(svg,-1,'l',x,y,aux->fig->r.x + aux->fig->r.w/2,aux->fig->r.y + aux->fig->r.h/2,cor);    
     }
-    adicionarNo(svg,0,'c');
-    adicionarCirculo(svg,x,y,1,cor,cor);
+    adicionarCirculo(svg,-1,'c',x,y,1,cor,cor);
 }
 
 no* delf(int j,FILE* saida, no* svg){
@@ -147,8 +138,8 @@ no* delf(int j,FILE* saida, no* svg){
         else{
             fprintf(saida,"%d: texto x = %f y = %f corb = %s corp = %s texto = %s\n",j,aux->fig->t.x,aux->fig->t.y,aux->fig->t.corb,aux->fig->t.corp,aux->fig->t.txt);
         }
+        svg = deletarElemento(svg,j);
     }
-    svg = deletarElemento(svg,j);
     return svg;
 }
 
