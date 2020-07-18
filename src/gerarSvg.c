@@ -24,17 +24,13 @@ void desenharRetanguloTracejado(FILE* svg, int w, int h, int x, int y, char cor[
     fprintf(svg,"\t<rect x=\"%d\" y=\"%d\" width=\"%d\" height=\"%d\" fill=\"transparent\" stroke=\"%s\" stroke-width =\"1\" stroke-dasharray=\"1\" />\n",x,y,w,h,cor);
 }
 
-void gerarSvg(char outpath[], no* figuras, float xi, float yi, float xf, float yf){
+void gerarSvg(char outpath[], no* figuras){
     FILE *svgArq = fopen(outpath,"w");
     if(svgArq == NULL){
         printf("erro ao abrir o arquivo\n");
         exit(1);
     }
-    if(xf - xi > 0 && yf - yi > 0){
-        fprintf(svgArq,"<svg viewBox=\"%f %f %f %g\">\n",xi,yi,xf - xi, yf - yi);
-    }else{
-        fprintf(svgArq,"<svg>\n");
-    }
+    fprintf(svgArq,"<svg>\n");
     while(figuras != NULL){
         switch (figuras->tipo){
         case 'c':

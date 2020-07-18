@@ -19,7 +19,7 @@ no* geo(char geoArq[], char saida[]){
     char tipo,cor1[22] ,cor2[22], buffer;
     char *txt;
     int n = 0, max = 1000, nbuffer, i;
-    float x,y,w,h,xi = 0,yi = 0,xf = 0,yf = 0; 
+    float x,y,w,h; 
     FILE* geo = fopen(geoArq,"r");
     if(geo == NULL){
         printf("erro ao abrir o arquivo\n");
@@ -32,35 +32,11 @@ no* geo(char geoArq[], char saida[]){
         else if(tipo == 'c'){
             fscanf(geo,"%d %f %f %f %s %s\n", &i, &h, &x, &y, cor1, cor2);
             svg = adicionarCirculo(svg,i,'c',x,y,h,cor1,cor2);
-            if(x - h < xi){
-                xi = x - h;
-            }
-            if(y - h < yi){
-                yi = y - h;
-            }
-            if(x + h > xf){
-                xf = x + h;
-            }
-            if(y + h > yf){
-                yf = y + h;
-            }
             n++;
         }
         else if(tipo == 'r'){
             fscanf(geo,"%d %f %f %f %f %s %s\n", &i, &x, &y, &h, &w, cor1, cor2);
             svg = adicionarRetangulo(svg,i,'r',x,y,w,h,cor1,cor2);
-            if(x < xi){
-                xi = x;
-            }
-            if(y < yi){
-                yi = y;
-            }
-            if(x + w > xf){
-                xf = x + w;
-            }
-            if(y + h > yf){
-                yf = y + h;
-            }
             n++;
         }
         else if(tipo == 't'){
@@ -75,23 +51,11 @@ no* geo(char geoArq[], char saida[]){
             txt = (char*)malloc(sizeof(char)*nbuffer);
             fscanf(geo,"%[^\n]",txt);
             svg = adicionarTexto(svg,i,'t',x,y,txt,cor1,cor2);
-            if(x < xi){
-                xi = x;
-            }
-            if(y - 10 < yi){
-                yi = y - 10;
-            }
-            if(x + 12*strlen(txt) > xf){
-                xf = x + 10*strlen(txt);
-            }
-            if(y > yf){
-                yf = y;
-            }
             free(txt);
         }
     }
     fclose(geo);
-    gerarSvg(saida,svg,xi,yi,xf,yf);
+    gerarSvg(saida,svg);
     return svg;
 }
 
@@ -145,9 +109,11 @@ no* qry(no* svg, char path[], char nomeSaida[]){
             }
         }
     }
-    gerarSvg(pathSvg,svg,0,0,0,0);
+    gerarSvg(pathSvg,svg);
     fclose(saida);
     fclose(consulta);
+    free(pathSvg);
+    free(pathTxt);
     return svg;
 }
 
@@ -202,5 +168,6 @@ void tratamento(char path[], char outPath[], char paramGeo[], char paramQry[]){
     }
     free(geoArq);
     free(saida);
+    free(saidaGeo);
     deletarLista(figuras);
 }

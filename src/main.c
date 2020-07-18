@@ -49,9 +49,13 @@ int main(int argc, char *argv[]){
         i++;
     }
     tratamento(path,outPath,paramGeo,paramQry);
-	free(paramQry);
+    if(paramQry != NULL){
+	    free(paramQry);
+    }
     free(paramGeo);
-    free(path);
+    if(path != NULL){
+        free(path);
+    }
 	free(outPath);
     printf("Mémoria desalocada\n");   
     return 0;
